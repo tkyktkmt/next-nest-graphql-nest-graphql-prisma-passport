@@ -13,7 +13,6 @@ import * as path from 'path';
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      debug: false,
       playground: true,
       // 自動生成されるスキーマのファイルを指定する
       autoSchemaFile: path.join(process.cwd(), 'src/schema.gql'),
