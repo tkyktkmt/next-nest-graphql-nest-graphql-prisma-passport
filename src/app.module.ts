@@ -7,6 +7,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { PostsModule } from './posts/posts.module';
 import * as path from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { UsersModule } from './users/users.module';
 @Module({
   controllers: [AppController],
   providers: [AppService, PrismaService],
@@ -19,6 +20,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
       autoSchemaFile: path.join(process.cwd(), 'src/schema.gql'),
     }),
     PostsModule,
+    UsersModule,
   ],
 })
 export class AppModule {}
