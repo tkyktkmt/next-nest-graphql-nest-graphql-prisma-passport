@@ -8,6 +8,7 @@ import { PostsModule } from './posts/posts.module';
 import * as path from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { UsersModule } from './users/users.module';
+import { RedisModule } from './redis/redis.module';
 @Module({
   controllers: [AppController],
   providers: [AppService, PrismaService],
@@ -21,6 +22,7 @@ import { UsersModule } from './users/users.module';
     }),
     PostsModule,
     UsersModule,
+    RedisModule,
   ],
 })
 export class AppModule {}
