@@ -7,8 +7,15 @@ type PostModel {
   title: String!
 }
 
+type UserModel {
+  id: ID!
+  email: String!
+}
+
 type Query {
   posts: [PostModel!]
+  users: [UserModel!]
+  allUsers: [UserModel!]
 }
 
 type Mutation {
