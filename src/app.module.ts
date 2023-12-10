@@ -20,6 +20,7 @@ import { RedisModule } from './redis/redis.module';
 import { REDIS } from './redis/redis.constants';
 import { PrismaService } from './prisma.service';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   controllers: [AppController],
@@ -35,6 +36,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
     PostsModule,
     UsersModule,
     RedisModule,
+    AuthModule,
   ],
 })
 export class AppModule implements NestModule {
