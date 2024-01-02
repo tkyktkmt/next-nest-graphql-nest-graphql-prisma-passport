@@ -4,11 +4,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { compare, hash } from 'bcrypt';
-
+import { PrismaService } from 'src/prisma.service';
 import { LoginUserInput } from './login-user.input';
 import { RegisterUserInput } from './register-user.input';
 import { User } from './auth.interface';
-import { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class AuthService {
@@ -20,34 +19,36 @@ export class AuthService {
         email: user.email,
       },
     });
+    const { password, ...retUser } = foundUser;
 
-    if (!user || !(await compare(user.password, foundUser.password))) {
+    if (!user || !(await compare(user.password, password))) {
       throw new UnauthorizedException('Incorrect username or password');
     }
-    const { password: _password, ...retUser } = foundUser;
     return retUser;
   }
 
   async registerUser(user: RegisterUserInput): Promise<Omit<User, 'password'>> {
+    const { confirmationPassword, password, email } = user;
+
     const existingUser = await this.prismaService.user.findUnique({
       where: {
-        email: user.email,
+        email: email,
       },
     });
     if (existingUser) {
       throw new BadRequestException('User remail must be unique');
     }
-    if (user.password !== user.confirmationPassword) {
+
+    if (password !== confirmationPassword) {
       throw new BadRequestException(
         'Password and Confirmation Password must match',
       );
     }
-    const { confirmationPassword: _, ...newUser } = user;
 
     const u = await this.prismaService.user.create({
       data: {
-        email: newUser.email,
-        password: await hash(newUser.password, 12),
+        email: email,
+        password: await hash(password, 12),
         isAdmin: false,
       },
     });
